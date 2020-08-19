@@ -1,3 +1,24 @@
+原版本存在的问题:
+1. php56 无法安装 mongodb 扩展
+
+    解决: 修改 extensions/php56.sh 文件(最下方) 将 `pecl install mongodb` 修改为 `pecl install mongodb-1.7.5`
+
+2. xhprof 无法安装. 我使用其他的方式安装好后, xhgui 也没有显示数据.
+    
+    解决:改为安装 `tideways`. 将 extensions/php56.sh 文件最下方添加(需要提前下载 tideways-4.1.5.tar.gz 文件放到 extensions 文件夹中. https://github.com/tideways/php-xhprof-extension/archive/v4.1.5.tar.gz)
+    ```
+    if [ -z "${EXTENSIONS##*,tideways,*}" ]; then
+        echo "---------- Install tideways ----------"
+        mkdir tideways \
+        && tar -xf tideways-4.1.5.tar.gz -C tideways --strip-components=1 \
+        && ( cd tideways && phpize && ./configure && make ${MC} && make install ) \
+        && docker-php-ext-enable tideways
+    fi
+    ```
+    最后修改 `www/xhgui-branch/config/config.default.php` 文件里的 extension 为 'tideways'
+    
+
+
 # DNMP PLUS
 
 **dnmp** = `Docker` + `Nginx` + `MySQL` + `PHP` + `Redis` + `MongDB`
