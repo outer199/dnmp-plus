@@ -78,13 +78,13 @@ fi
 if [ -z "${EXTENSIONS##*,mongodb,*}" ]; then
     echo "---------- Install mongodb ----------"
 	apk add --no-cache unixodbc-dev
-    printf "\n" | pecl install mongodb
+    printf "\n" | pecl install mongodb-1.7.5
     docker-php-ext-enable mongodb
 fi
 
 if [ -z "${EXTENSIONS##*,xhprof,*}" ]; then
     echo "---------- Install xhprof ----------"
 	apk add --no-cache unixodbc-dev
-    printf "\n" | pecl install xhprof-beta
+    printf "\n" | pecl install xhprof-0.9.4
     docker-php-ext-enable xhprof
 fi
